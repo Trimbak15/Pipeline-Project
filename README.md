@@ -172,31 +172,31 @@ pipeline {
         stage('Setup Python') {
             steps {
                 echo "Setting up Python environment..."
-                bat '"C:/Users/atp81/AppData/Local/Python/pythoncore-3.14-64/python.exe" --version'
+                bat '"C:/Users/atp81/AppData/Local/Programs/Python/Python314/python.exe" --version'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                bat '"C:/Users/atp81/AppData/Local/Python/pythoncore-3.14-64/python.exe" -m pip install -r requirements.txt'
+                bat '"C:/Users/atp81/AppData/Local/Programs/Python/Python314/python.exe" -m pip install -r requirements.txt'
             }
         }
 
         stage('Run App') {
             steps {
-                bat '"C:/Users/atp81/AppData/Local/Python/pythoncore-3.14-64/python.exe" app.py'
+                bat '"C:/Users/atp81/AppData/Local/Programs/Python/Python314/python.exe" app.py'
             }
         }
 
         stage('Run Tests') {
             steps {
-                bat '"C:/Users/atp81/AppData/Local/Python/pythoncore-3.14-64/python.exe" -m pytest test_app.py -v --tb=short'
+                bat '"C:/Users/atp81/AppData/Local/Programs/Python/Python314/python.exe" -m pytest test_app.py -v --tb=short'
             }
         }
 
         stage('Test Coverage') {
             steps {
-                bat '"C:/Users/atp81/AppData/Local/Python/pythoncore-3.14-64/python.exe" -m pytest test_app.py --cov=app --cov-report=term-missing'
+                bat '"C:/Users/atp81/AppData/Local/Programs/Python/Python314/python.exe" -m pytest test_app.py --cov=app --cov-report=term-missing'
             }
         }
 
@@ -224,7 +224,6 @@ pipeline {
         }
     }
 }
-
 ```
 
 ---
