@@ -153,81 +153,78 @@ python3 -m pytest test_app.py -v
 Define the complete CI/CD pipeline for Jenkins.
 
 ```groovy
+
 pipeline {
     agent any
-    
-    environment {
-        PYTHON_VERSION = '3.9'
-    }
-    
 
-    
+    environment {
+        PYTHON_VERSION = '3.14'
+    }
+
     stages {
-        
+
+        stage('Checkout Code') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Trimbak15/Pipeline-Project.git'
+            }
+        }
+
         stage('Setup Python') {
             steps {
                 echo "Setting up Python environment..."
-                sh 'python3 --version'
-                sh 'pip3 --version'
+                bat '"C:/Users/atp81/AppData/Local/Python/pythoncore-3.14-64/python.exe" --version'
             }
         }
-        
+
         stage('Install Dependencies') {
             steps {
-                echo "Installing Python dependencies..."
-                sh 'pip3 install -r requirements.txt'
+                bat '"C:/Users/atp81/AppData/Local/Python/pythoncore-3.14-64/python.exe" -m pip install -r requirements.txt'
             }
         }
-        
-        
-        stage('Run Application') {
+
+        stage('Run App') {
             steps {
-                echo "Running the application..."
-                sh 'python3 app.py'
+                bat '"C:/Users/atp81/AppData/Local/Python/pythoncore-3.14-64/python.exe" app.py'
             }
         }
-        
+
         stage('Run Tests') {
             steps {
-                echo "Running unit tests..."
-                sh 'python3 -m pytest test_app.py -v --tb=short'
+                bat '"C:/Users/atp81/AppData/Local/Python/pythoncore-3.14-64/python.exe" -m pytest test_app.py -v --tb=short'
             }
         }
-        
+
         stage('Test Coverage') {
             steps {
-                echo "Generating test coverage report..."
-                sh 'python3 -m pytest test_app.py --cov=app --cov-report=term-missing || true'
+                bat '"C:/Users/atp81/AppData/Local/Python/pythoncore-3.14-64/python.exe" -m pytest test_app.py --cov=app --cov-report=term-missing'
             }
         }
-        
+
         stage('Build Artifacts') {
-            steps {
-                echo "Creating build artifacts..."
-                sh '''
-                    mkdir -p dist
-                    cp app.py dist/
-                    cp test_app.py dist/
-                    cp requirements.txt dist/
-                    echo "Artifacts ready in dist/ directory"
-                '''
-            }
-        }
+    steps {
+        bat '''
+        if not exist dist mkdir dist
+        copy app.py dist\\
+        copy test_app.py dist\\
+        copy requirements.txt dist\\
+        '''
     }
-    
+}
+    }
+
     post {
         always {
-            echo "Cleaning up workspace..."
             cleanWs()
         }
         success {
-            echo "Pipeline executed successfully!"
+            echo 'Pipeline executed successfully!'
         }
         failure {
-            echo "Pipeline failed! Check logs above."
+            echo 'Pipeline failed! Check logs above.'
         }
     }
 }
+
 ```
 
 ---
